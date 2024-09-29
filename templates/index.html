@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Python Browser</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        input[type="text"] { width: 70%; padding: 10px; }
+        input[type="submit"] { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Simple Python Browser</h1>
+    <form action="/fetch" method="post">
+        <input type="text" name="url" placeholder="Enter URL (e.g., http://example.com)" required>
+        <input type="submit" value="Fetch">
+    </form>
+    <div id="content"></div>
+    <script>
+        const form = document.querySelector('form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const url = form.url.value;
+            const response = await fetch('/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ url })
+            });
+            const content = await response.text();
+            document.getElementById('content').innerHTML = content;
+        };
+    </script>
+</body>
+</html>
